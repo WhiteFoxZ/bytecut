@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
 
+import com.ems.common.smtp.GMailSender;
+
 
 /**
  * Servlet implementation class Sb10100Action
@@ -18,6 +20,10 @@ public class Sb10100Action extends HttpServlet {
 			.getLogger(this.getClass());
 
 	JSONObject outJson = new JSONObject(); // json 형태 데이터로 화면에 데이터를 전송하기 위해 사용
+
+	GMailSender gmail = new GMailSender();
+
+	static String FROM_NAME = "느린메일";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -46,26 +52,30 @@ public class Sb10100Action extends HttpServlet {
 		PrintWriter out = response.getWriter(); // response 인코딩후 out 객체를 받아야 한다.
 
 		String data = request.getParameter("data");
+		String to_email = request.getParameter("email");
+		String subject = request.getParameter("subject");
+
 
 		if (data.equals("시작")) {
-
 			sb.setLength(0);
 		} else if (data.equals("끝")) {
-			// System.out.println(sb.toString()+"\n**************************\n");
-			log.info("\n" + sb.toString() + "\n**************************");
+
+			log.info("[" + sb.toString() + "]");
+
+			gmail.mailSender(FROM_NAME, subject, to_email, sb.toString());
+
 		} else {
 			sb.append(data);
-
 			log.debug(data);
 		}
 
 		outJson.put("event", "success");
 		outJson.put("msg", "success");
-		
-		
+
+
 		out.print(outJson);
 		out.flush();
-		
+
 	}
 
 }

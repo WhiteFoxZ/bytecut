@@ -13,6 +13,9 @@
 }
 </style>
 <script>
+	var email = "";
+	var subject = "";
+
 	var calByte = {
 		getByteLength : function(s) {
 
@@ -109,22 +112,28 @@
 
 		while ((now - then) < gap) {
 
-			now = new Date().getTime(); // 현재시간을 읽어 함수를 불러들인 시간과의 차를 이용하여 처리 
+			now = new Date().getTime(); // 현재시간을 읽어 함수를 불러들인 시간과의 차를 이용하여 처리
 
 		}
 
 	}
 
 	function splitButton() {
-		
-		
 
 		var tmp = new Array();
 
-		var txt = $('[name="contents"]').text();
+		var txt = $('[name="contents"]').val();
 
 		var inByte = $('[name="inByte"]').val();
 		var inDelay = $('[name="inDelay"]').val();
+		email = $('[name="email"]').val();
+		subject = $('[name="subject"]').val();
+
+		if (email == "") {
+			alert('email 을 넣어주세요.');
+			return false;
+
+		}
 
 		$(".viewByte").html(calByte.getByteLength(txt));
 
@@ -152,6 +161,7 @@
 		}
 
 		$(".view20Byte").append('총:[' + byteTotal + ']<p>');
+
 		var rv = save("끝");
 
 	}
@@ -165,10 +175,12 @@
 			dataType : "json", //json 아닐때 제거
 			async : false,
 			data : {
-				data : msg
+				data : msg,
+				email : email,
+				subject : subject
 			},
 			url : "/bytecut/Sb10100Action",
-			
+
 			success : function(result) {
 
 				if (result.event == "success") {
@@ -200,13 +212,37 @@
 
 <body>
 	<form id="save_form" class="form-horizontal">
-	delay : <input type="text" name="inDelay" value="800" /><br>
-	Byte : <input type="text" name="inByte" value="50" />
-		<p></p>
-		<textarea name="contents" style="width: 99%; height: 100px;">
+		<table width="500px;" >
+			<tr>
+				<td>delay(밀리세컨드)</td>
+				<td><input type="text" name="inDelay" value="500" /></td>
+			</tr>
+			<tr>
+				<td>Byte (글자나누기)</td>
+				<td><input type="text" name="inByte" value="50" /></td>
+			</tr>
+
+
+			<tr>
+				<td>받는사람</td>
+				<td><input type="text" name="email" value="fmjj007@naver.com" /></td>
+			</tr>
+
+			<tr>
+				<td>제목</td>
+				<td><input type="text" name="subject" value="5분 느린메일" /></td>
+			</tr>
+
+			<tr>
+				<td colspan="2"><textarea name="contents"
+						style="width: 99%; height: 100px;">
 한미 미사일 지침 개정을 통해 우리 미사일의 탄두 중량을 늘리려는 것은 북한의 미사일 기술이 상대적으로 급진전하고 있기 때문입니다.
 현재 사거리 800㎞에 탄두 중량 500㎏으로는 미 본토까지 타격 가능한 ICBM급 미사일에 매달리는 북한의 도발 의지를 꺾기에는 역부족이라는 게 우리 정부의 판단입니다.
-</textarea>
+</textarea></td>
+
+			</tr>
+
+		</table>
 		<p>
 			<span class="viewByte red"></span>byte입니다.
 		</p>
