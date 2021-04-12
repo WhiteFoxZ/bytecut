@@ -10,6 +10,10 @@
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
 
+	<listener>
+        <listener-class>com.ems.common.listener.DBCPListener</listener-class>
+  	</listener>
+
 
   <servlet>
     <description></description>
@@ -23,6 +27,16 @@
     <url-pattern>/servlet/ByteCutAction</url-pattern>
   </servlet-mapping>
 
+  <servlet>
+    <description></description>
+    <display-name>TistoryAction</display-name>
+    <servlet-name>TistoryAction</servlet-name>
+    <servlet-class>whitefox.bytecut.action.TistoryAction</servlet-class>
+  </servlet>
 
+      <servlet-mapping>
+    <servlet-name>TistoryAction</servlet-name>
+    <url-pattern>/servlet/TistoryAction</url-pattern>
+  </servlet-mapping>
 
 </web-app>
