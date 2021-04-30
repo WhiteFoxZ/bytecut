@@ -26,22 +26,19 @@ public class HttpConnectionUtil {
 
         JSONObject jsonObject = new JSONObject();
 
-        try {
+		try {
 
+			jsonObject.put("imgUrl", pList.get("imgUrl"));
 
-            jsonObject.accumulate("imgUrl", pList.get("imgUrl"));
+			jsonObject.put("thisUrl", pList.get("thisUrl"));
 
+			json = jsonObject.toString();
 
-        jsonObject.accumulate("thisUrl", pList.get("thisUrl"));
+//			System.out.println("postRequest: " + json);
 
-        json = jsonObject.toString();
-
-        System.out.println("postRequest: "+json);
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 
 
         String myResult = "";
@@ -65,22 +62,22 @@ public class HttpConnectionUtil {
 // --------------------------
 // 헤더 세팅
 // --------------------------
-// 서버에게 웹에서 으로 값이 넘어온 것과 같은 방식으로 처리하라는 걸 알려준다
-// http.setRequestProperty("content-type", "application/x-www-form-urlencoded");
+// 서버로 보내는 처리방식설정
+ http.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
+// http.setRequestProperty("Content-type", "application/json");	//send the request content in JSON form
 
-            http.setRequestProperty("Accept", "application/json");
+ //서버로부터 수신받는 처리방식
+http.setRequestProperty("Accept", "application/json");
 
-            http.setRequestProperty("Content-type", "application/json");
+        	StringBuffer buffer = new StringBuffer();
+			buffer.append("data").append("=").append(json);
 
-// --------------------------
-// 서버로 값 전송
-// --------------------------
-            StringBuffer buffer = new StringBuffer();
 
-            OutputStreamWriter outStream = new OutputStreamWriter(http.getOutputStream(), "UTF-8");
+ 			OutputStreamWriter outStream = new OutputStreamWriter(http.getOutputStream(), "UTF-8");
             PrintWriter writer = new PrintWriter(outStream);
-            writer.write(json);
+            writer.write(buffer.toString());
             writer.flush();
+            writer.close();
 
 // --------------------------
 // Response Code
@@ -98,6 +95,9 @@ public class HttpConnectionUtil {
                 builder.append(str + "\n");
             }
             myResult = builder.toString();
+
+            reader.close();
+
             return myResult;
 
         } catch (MalformedURLException e) {
@@ -131,7 +131,7 @@ public class HttpConnectionUtil {
             e.printStackTrace();
         }
 
-        System.out.println(resp);
+        System.out.println("result : "+resp);
 
     }
 

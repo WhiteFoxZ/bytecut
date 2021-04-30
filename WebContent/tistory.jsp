@@ -34,18 +34,26 @@ html 페이지 인코딩 utf-8로 되어 있어야 한글이 안깨짐니다.
 
 		var thisUrl = document.location.href;
 
+		var jsData ={
+				imgUrl : imgUrl,
+				thisUrl : thisUrl
+				};
+
+		var jsonData = JSON.stringify(jsData);
+
+		console.log(jsonData);
+
 
 		$.ajax({
 			type : 'post',
-			dataType : "json", //json 아닐때 제거
+			dataType : "json", //json 아닐때 제거. 리턴받는 데이타가 json
 			async : false,
 			data : {
-				imgUrl : imgUrl,
-				thisUrl : thisUrl
+				data : jsonData
 			},
-			url : "http://localhost/bytecut/servlet/TistoryAction",
-			//url : "http://fishfox.cafe24.com/bytecut/servlet/TistoryAction",
-
+			//url : "http://localhost/bytecut/servlet/TistoryAction",
+			//url : "http://gocamp.iptime.org/bytecut/servlet/TistoryAction",
+			url : "http://fishfox.cafe24.com/bytecut/servlet/TistoryAction",
 
 			success : function(result) {
 

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 
 import com.ems.common.dbcp.DBManager;
 import com.ems.common.dbcp.DataSource;
@@ -63,25 +64,22 @@ public class TistoryAction extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
 
-		String remoteAddr = request.getRemoteAddr();
-
-
 		PrintWriter out = response.getWriter(); // response 인코딩후 out 객체를 받아야 한다.
 
-		String thisUrl = request.getParameter("thisUrl");
-
-		String imgUrl = request.getParameter("imgUrl")==null?"":request.getParameter("imgUrl");
+		String remoteAddr = getClientIpAddr (request);
 
 		String data = request.getParameter("data")==null?"":request.getParameter("data");
 
+		log.debug("remoteAddr : "+remoteAddr);
+		log.debug("data : "+data);
 
+		JSONObject tmp = (JSONObject)JSONValue.parse(data);
 
-
+		String thisUrl = tmp.get("thisUrl").toString();
+		String imgUrl = tmp.get("imgUrl").toString();
 
 		log.debug("thisUrl : "+thisUrl);
 		log.debug("imgUrl : "+imgUrl);
-		log.debug("remoteAddr : "+remoteAddr);
-		log.debug("data : "+data);
 
 
 
@@ -122,11 +120,38 @@ public class TistoryAction extends HttpServlet {
 		}
 
 
+		outJson.put("event", "success");
+		outJson.put("msg", "success");
+
 
 		out.print(outJson);
 		out.flush();
 		out.close();
 
 	}
+
+	public static String getClientIpAddr(HttpServletRequest request) {
+	    String ip = request.getHeader("X-Forwarded-For");
+
+	    if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+	        ip = request.getHeader("Proxy-Client-IP");
+	    }
+	    if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+	        ip = request.getHeader("WL-Proxy-Client-IP");
+	    }
+	    if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+	        ip = request.getHeader("HTTP_CLIENT_IP");
+	    }
+	    if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+	        ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+	    }
+	    if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+	        ip = request.getRemoteAddr();
+	    }
+
+	    return ip;
+	}
+
+
 
 }
