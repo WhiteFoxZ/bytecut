@@ -115,23 +115,26 @@ http.setRequestProperty("Accept", "application/json");
 
     public static void main(String[] args) {
 
-        String pURL = "http://localhost/bytecut/servlet/TistoryAction";
-//        String pURL = "http://fishfox.cafe24.com/bytecut/servlet/TistoryAction";
-        HashMap pList = new HashMap();
-        pList.put("imgUrl", "bbb.jsp");
-        pList.put("thisUrl", "naver.com");
+//        String pURL = "http://localhost/bytecut/servlet/TistoryAction";
+////        String pURL = "http://fishfox.cafe24.com/bytecut/servlet/TistoryAction";
+//        HashMap pList = new HashMap();
+//        pList.put("imgUrl", "bbb.jsp");
+//        pList.put("thisUrl", "naver.com");
+//
+//        System.out.println("**********************");
+//
+//
+//        String resp = null;
+//        try {
+//            resp = HttpConnectionUtil.postRequest(pURL, pList);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        System.out.println("result : "+resp);
 
-        System.out.println("**********************");
+    	System.out.println("sssshttps://band.us/band/84018939/".indexOf("https://band.us/band/84018939"));
 
-
-        String resp = null;
-        try {
-            resp = HttpConnectionUtil.postRequest(pURL, pList);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("result : "+resp);
 
     }
 

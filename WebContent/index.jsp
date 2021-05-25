@@ -28,6 +28,7 @@ html 페이지 인코딩 utf-8로 되어 있어야 한글이 안깨짐니다.
 <script>
 	var email = "";
 	var subject = "";
+	var html="";
 	var sessionId ="<%=d.toGMTString()%>";
 
 	var calByte = {
@@ -155,6 +156,7 @@ html 페이지 인코딩 utf-8로 되어 있어야 한글이 안깨짐니다.
 
 		email = $('[name="email"]').val();
 		subject = $('[name="subject"]').val();
+		html= $('[name="html"]').attr('checked');
 
 		if (email == "") {
 			alert('email 을 넣어주세요.');
@@ -205,6 +207,7 @@ html 페이지 인코딩 utf-8로 되어 있어야 한글이 안깨짐니다.
 				data : msg,
 				email : email,
 				subject : subject,
+				subject : html,
 				sessionId : sessionId
 			},
 			url : "./servlet/ByteCutAction",
@@ -263,6 +266,11 @@ html 페이지 인코딩 utf-8로 되어 있어야 한글이 안깨짐니다.
 			<tr>
 				<td>제목</td>
 				<td><input type="text" name="subject" value="5분 느린메일" /></td>
+			</tr>
+
+			<tr>
+				<td>HTML</td>
+				<td><input type="checkbox" name="html" value="1"></td>
 			</tr>
 
 			<tr>

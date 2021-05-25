@@ -65,7 +65,7 @@ public class ByteCutAction extends HttpServlet {
 		String to_email = request.getParameter("email");
 		String subject = request.getParameter("subject");
 		String sessionId = request.getParameter("sessionId");
-
+		String html = request.getParameter("html");
 
 		if (data.equals("start")) {
 
@@ -81,7 +81,7 @@ public class ByteCutAction extends HttpServlet {
 
 				log.info("[" + sb.toString() + "]");
 
-				gmail.mailSender(FROM_NAME, subject, to_email, sb.toString());
+				gmail.mailSender(FROM_NAME, subject, to_email, sb.toString(),Boolean.parseBoolean(html));
 
 			}
 
