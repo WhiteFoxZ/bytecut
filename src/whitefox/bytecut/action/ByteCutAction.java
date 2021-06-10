@@ -67,6 +67,7 @@ public class ByteCutAction extends HttpServlet {
 		String sessionId = request.getParameter("sessionId");
 		String html = request.getParameter("html");
 
+
 		if (data.equals("start")) {
 
 			sb.setLength(0);

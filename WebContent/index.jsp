@@ -207,7 +207,7 @@ html 페이지 인코딩 utf-8로 되어 있어야 한글이 안깨짐니다.
 				data : msg,
 				email : email,
 				subject : subject,
-				subject : html,
+				html : html,
 				sessionId : sessionId
 			},
 			url : "./servlet/ByteCutAction",
