@@ -276,7 +276,6 @@ html 페이지 인코딩 utf-8로 되어 있어야 한글이 안깨짐니다.
 			<tr>
 				<td colspan="2"><textarea name="contents" 	style="width: 99%; height: 100px;" ondblclick="this.value=''">
 한미 미사일 지침 개정을 통해 우리 미사일의 탄두 중량을 늘리려는 것은 북한의 미사일 기술이 상대적으로 급진전하고 있기 때문입니다.
-현재 사거리 800㎞에 탄두 중량 500㎏으로는 미 본토까지 타격 가능한 ICBM급 미사일에 매달리는 북한의 도발 의지를 꺾기에는 역부족이라는 게 우리 정부의 판단입니다.
 </textarea></td>
 
 			</tr>

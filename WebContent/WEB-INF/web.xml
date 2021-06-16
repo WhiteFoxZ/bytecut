@@ -10,9 +10,6 @@
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
 
-	<listener>
-        <listener-class>com.ems.common.listener.DBCPListener</listener-class>
-  	</listener>
 
 
   <servlet>

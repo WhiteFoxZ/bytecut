@@ -1,4 +1,5 @@
 package whitefox.bytecut.action;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -10,27 +11,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import com.ems.common.dbcp.DBManager;
 import com.ems.common.dbcp.DataSource;
-import com.ems.common.smtp.GMailSender;
-
-
 
 /**
  * Servlet implementation class Sb10100Action
  */
 public class TistoryAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private org.apache.log4j.Logger log = org.apache.log4j.Logger
-			.getLogger(this.getClass());
+	private static Logger log = Logger.getLogger(TistoryAction.class.getName());
 
 	JSONObject outJson = new JSONObject(); // json 형태 데이터로 화면에 데이터를 전송하기 위해 사용
 
 	DataSource ds;
-
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -41,50 +38,42 @@ public class TistoryAction extends HttpServlet {
 
 		log.debug(ds);
 
-
 	}
-
-
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doPost(request, response);
 	}
 
-
-
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
 
 		PrintWriter out = response.getWriter(); // response 인코딩후 out 객체를 받아야 한다.
 
-		String remoteAddr = getClientIpAddr (request);
+		String remoteAddr = getClientIpAddr(request);
 
-		String data = request.getParameter("data")==null?"":request.getParameter("data");
+		String data = request.getParameter("data") == null ? "" : request.getParameter("data");
 
-		log.debug("remoteAddr : "+remoteAddr);
-		log.debug("data : "+data);
+		log.debug("remoteAddr : " + remoteAddr);
+		log.debug("data : " + data);
 
-		JSONObject tmp = (JSONObject)JSONValue.parse(data);
+		JSONObject tmp = (JSONObject) JSONValue.parse(data);
 
 		String thisUrl = tmp.get("thisUrl").toString();
 		String imgUrl = tmp.get("imgUrl").toString();
 
-		log.debug("thisUrl : "+thisUrl);
-		log.debug("imgUrl : "+imgUrl);
+		log.debug("thisUrl : " + thisUrl);
+		log.debug("imgUrl : " + imgUrl);
 
-
-
-
-		if(ds!=null) {
+		if (ds != null) {
 
 			DBManager dbm = new DBManager(ds);
 
@@ -96,7 +85,7 @@ public class TistoryAction extends HttpServlet {
 
 				con = dbm.getConnection();
 
-				dbm.insert(dbm.getConnection(), sb.toString(), new String[] {thisUrl,imgUrl,remoteAddr});
+				dbm.insert(dbm.getConnection(), sb.toString(), new String[] { thisUrl, imgUrl, remoteAddr });
 
 				dbm.commitChange(con);
 
@@ -119,10 +108,8 @@ public class TistoryAction extends HttpServlet {
 
 		}
 
-
 		outJson.put("event", "success");
 		outJson.put("msg", "success");
-
 
 		out.print(outJson);
 		out.flush();
@@ -131,27 +118,25 @@ public class TistoryAction extends HttpServlet {
 	}
 
 	public static String getClientIpAddr(HttpServletRequest request) {
-	    String ip = request.getHeader("X-Forwarded-For");
+		String ip = request.getHeader("X-Forwarded-For");
 
-	    if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-	        ip = request.getHeader("Proxy-Client-IP");
-	    }
-	    if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-	        ip = request.getHeader("WL-Proxy-Client-IP");
-	    }
-	    if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-	        ip = request.getHeader("HTTP_CLIENT_IP");
-	    }
-	    if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-	        ip = request.getHeader("HTTP_X_FORWARDED_FOR");
-	    }
-	    if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-	        ip = request.getRemoteAddr();
-	    }
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("Proxy-Client-IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("WL-Proxy-Client-IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("HTTP_CLIENT_IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getRemoteAddr();
+		}
 
-	    return ip;
+		return ip;
 	}
-
-
 
 }

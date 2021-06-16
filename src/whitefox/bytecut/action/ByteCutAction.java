@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 
 import com.ems.common.smtp.GMailSender;
@@ -17,8 +18,9 @@ import com.ems.common.smtp.GMailSender;
  */
 public class ByteCutAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private org.apache.log4j.Logger log = org.apache.log4j.Logger
-			.getLogger(this.getClass());
+	private static Logger log = Logger.getLogger(ByteCutAction.class.getName());
+
+
 
 	JSONObject outJson = new JSONObject(); // json 형태 데이터로 화면에 데이터를 전송하기 위해 사용
 
@@ -58,6 +60,7 @@ public class ByteCutAction extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
 
+		log.debug(" doPost start ");
 
 		PrintWriter out = response.getWriter(); // response 인코딩후 out 객체를 받아야 한다.
 
@@ -72,15 +75,15 @@ public class ByteCutAction extends HttpServlet {
 
 			sb.setLength(0);
 			startSessionId=sessionId;
-			log.info("start [" + startSessionId + "]");
+			log.debug("start [" + startSessionId + "]");
 
 		} else if (data.equals("end")) {
 
-//			log.info("[" + sb.toString() + "]");
+//			log.debug("[" + sb.toString() + "]");
 
 			if(sessionId.equals(startSessionId)) {
 
-				log.info("[" + sb.toString() + "]");
+				log.debug("[" + sb.toString() + "]");
 
 				gmail.mailSender(FROM_NAME, subject, to_email, sb.toString(),Boolean.parseBoolean(html));
 
