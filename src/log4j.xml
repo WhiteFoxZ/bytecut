@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration
+	xmlns:log4j="http://jakarta.apache.org/log4j/">
+	<!-- 콘솔 로그 -->
+	<appender name="console"
+		class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="[%t]-[%d] %-5p %l ->%m%n" />
+		</layout>
+	</appender>
+	<!-- 날짜별 로그 파일 생성 -->
+	<appender name="byteFile"
+		class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="../logs/bytecut.log" />
+		<param name="Append" value="true" />
+		<!-- param name="MaxFileSize" value="100MB"/ -->
+		<!-- param name="MaxBackupIndex" value="2"></param -->
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="[%t]-[%d] %-5p %l ->%m%n" />
+		</layout>
+	</appender>
+	<!-- 날짜별 로그 파일 생성 -->
+
+
+	<!-- 특정 패키지 출력 설정 -->
+
+
+	<logger name="java.sql">
+		<level value="DEBUG" />
+	</logger>
+
+	<!-- 각서비스별 추가 -->
+	<logger name="whitefox.bytecut.action">
+		<level value="byteFile" />
+	</logger>
+
+
+	<!-- 기본 출력 설정 -->
+	<root>
+		<level value="DEBUG" />
+		<appender-ref ref="console" />
+		<appender-ref ref="byteFile" />
+	</root>
+</log4j:configuration>
