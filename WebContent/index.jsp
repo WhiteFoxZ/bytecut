@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ page import="com.ems.common.util.*"%>
 <%@ page import="java.util.*"%>
 
 <%
@@ -291,6 +291,33 @@ html 페이지 인코딩 utf-8로 되어 있어야 한글이 안깨짐니다.
 			<input type="button" value="나누기" onclick="splitButton()">
 		</p>
 	</form>
+
+	<%
+String serverName = request.getServerName();
+if(!serverName.equals("localhost") && !serverName.equals("fishfox.iptime.org")){
+	//모바일인지 체크
+	String ua=request.getHeader("User-Agent").toLowerCase();
+	String s = CommUtil.getClientOS(ua);
+	final  boolean mobile=CommUtil.isMoblie(s);
+
+	if(mobile){
+%>
+<ins class="kakao_ad_area" style="display: none;" data-ad-unit="DAN-yvBz8uCGj8VXRaeH" data-ad-width="320" data-ad-height="50"></ins>
+
+<%
+	}else{
+%>
+<ins class="kakao_ad_area" style="display:none;" data-ad-unit = "DAN-vrmuEmsBNGFg5271" data-ad-width = "728" data-ad-height = "50"></ins>
+<%
+	}
+%>
+
+<script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
+
+<%}else{ %>
+<img src="https://cdn.pixabay.com/photo/2022/09/25/15/16/bee-7478585_960_720.jpg" width="103" height="48">
+<%} %>
+
 </body>
 </html>
 
